@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
+import { useRouter } from "next/dist/client/router";
 
 const LoginPage = () => {
   const [credentials, setCredentials] = useState({ email: "", password: "" });
@@ -10,12 +11,18 @@ const LoginPage = () => {
       [e.target.name]: e.target.value,
     });
   };
-  const handleSubmit = async(e) => {
+  const router = useRouter();
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(credentials)
-    const response = await axios.post('/api/auth/login', credentials)
+    console.log(credentials);
+    const response = await axios.post("/api/auth/login", credentials);
     console.log(response);
-  }
+    
+    if (response.status === 200) {
+      // redireccionamiento
+      router.push("/dashboard");
+    }
+  };
 
   return (
     <div>
